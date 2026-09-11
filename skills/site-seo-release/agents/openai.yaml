@@ -1,0 +1,7 @@
+interface:
+  display_name: "Site SEO Release"
+  short_description: "SEO e checklist de fechamento de sites e landing pages"
+  default_prompt: "Use $site-seo-release para orientar a construção ou revisar o fechamento deste site e registrar as pendências com evidências."
+policy:
+  allow_implicit_invocation: true
+

@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+.DS_Store
+Thumbs.db
+.test-work/
+# Inaccessible empty test directories left by Windows sandbox ACL creation.
+/tests/tmp*/
+/tmp*/

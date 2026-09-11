@@ -1,0 +1,60 @@
+{
+  "snapshot_kind": "selected-textual-import",
+  "upstream_repository": "https://github.com/AgriciDaniel/claude-seo",
+  "upstream_ref": "main",
+  "upstream_commit_sha": null,
+  "commit_sha_verified": false,
+  "retrieved_at": "2026-09-11",
+  "retrieval_method": "Public raw GitHub pages accessed through web browsing; each file was reconstructed from the displayed line-labelled output.",
+  "is_full_clone": false,
+  "repository_integrity_verified": false,
+  "upstream_content_executed": false,
+  "scope_note": "Selected textual snapshot only. This manifest does not claim a complete clone or complete repository provenance.",
+  "files": [
+    {
+      "path": "seo.original.txt",
+      "source_url": "https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/skills/seo/SKILL.md",
+      "upstream_path": "skills/seo/SKILL.md",
+      "upstream_version": "2.2.5",
+      "declared_total_lines": 254,
+      "verified_line_sequence": "L0-L253",
+      "sha256": "a53328b899aa75678978fe5756629fd96f1614d73b0004166bba5966cb99f19b"
+    },
+    {
+      "path": "LICENSE.original.txt",
+      "source_url": "https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/LICENSE",
+      "upstream_path": "LICENSE",
+      "upstream_version": null,
+      "declared_total_lines": 19,
+      "verified_line_sequence": "L0-L18",
+      "sha256": "300adfbb37ac9e1414bfde7079416bf480da0cbaf13a19f747027d4f5137f4d2"
+    },
+    {
+      "path": "seo-technical.original.txt",
+      "source_url": "https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/skills/seo-technical/SKILL.md",
+      "upstream_path": "skills/seo-technical/SKILL.md",
+      "upstream_version": "2.3.1",
+      "declared_total_lines": 252,
+      "verified_line_sequence": "L0-L251",
+      "sha256": "5bde09c00b04a3cf7e2e5326ac311467af617536bd5bd7632f838966b7dd1ace"
+    },
+    {
+      "path": "seo-sitemap.original.txt",
+      "source_url": "https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/skills/seo-sitemap/SKILL.md",
+      "upstream_path": "skills/seo-sitemap/SKILL.md",
+      "upstream_version": "2.2.5",
+      "declared_total_lines": 140,
+      "verified_line_sequence": "L0-L139",
+      "sha256": "cb632ca4c443cecbc34bc26250d8660ad2304d53976844a0b682a4f1538e0581"
+    },
+    {
+      "path": "seo-images.original.txt",
+      "source_url": "https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/skills/seo-images/SKILL.md",
+      "upstream_path": "skills/seo-images/SKILL.md",
+      "upstream_version": "2.2.5",
+      "declared_total_lines": 387,
+      "verified_line_sequence": "L0-L386",
+      "sha256": "3d8bd0e2ac591de212f54e2481f6af7d886588f731e9ae192f7943990cfaa4ff"
+    }
+  ]
+}

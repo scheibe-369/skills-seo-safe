@@ -1,0 +1,39 @@
+{
+  "cases": [
+    {
+      "id": "new-landing",
+      "request": "Crie uma landing page para uma empresa de instalação de ar-condicionado em Curitiba. O CTA é pedir orçamento. Ainda não temos domínio final nem provedor de e-mail.",
+      "artifacts": "Nenhum código existe. O ambiente permite escrever apenas no projeto. Não há pesquisa de volume de busca disponível."
+    },
+    {
+      "id": "local-finish",
+      "request": "Terminei o site. Faça a revisão de fechamento com o que temos e diga se está pronto.",
+      "artifacts": "Build local exit 0. title e description encontrados em todas as 3 páginas do build. Não há navegador, URL publicada nem acesso DNS. A home possui formulário com fetch('/api/leads') e exibe sucesso quando recebe HTTP 200."
+    },
+    {
+      "id": "production-observations",
+      "request": "Revise a versão publicada. Tenho estes resultados e quero a lista do que falta.",
+      "artifacts": "GET / = 200. GET /robots.txt = 200 com User-agent: * e Disallow: /. GET /sitemap.xml = 200 com URLs /, /obrigado e /nao-existe. /obrigado tem meta robots noindex. GET /nao-existe = 200 e body 'Página não encontrada'. Formulário válido respondeu 200 e toast de sucesso, mas nenhum registro de lead foi encontrado no CRM. O e-mail usa domínio próprio; seletor DKIM não foi informado, TXT _dmarc retorna NXDOMAIN. Não existem resultados dos outros testes."
+    },
+    {
+      "id": "narrow-edit",
+      "request": "Troque só a foto do hero pela imagem fornecida. Não precisa refazer a auditoria inteira agora.",
+      "artifacts": "Há SEO-SPEC.md e relatório anterior. A nova imagem tem 4200x2800 e 7 MB. A imagem atual usa loading=lazy."
+    },
+    {
+      "id": "explicit-exclusion",
+      "request": "Corrija só este endpoint interno de consulta de saldo. Não trabalhe em SEO.",
+      "artifacts": "O endpoint não gera páginas e não tem interface pública."
+    },
+    {
+      "id": "private-campaign",
+      "request": "Finalize a página da campanha fechada para convidados. Ela deve continuar fora da busca.",
+      "artifacts": "A rota /convite exige login. A configuração contém noindex intencional. O usuário não autorizou torná-la pública."
+    },
+    {
+      "id": "global-registration",
+      "request": "Use a skill e registre nos MDs globais de Claude e Codex para economizar contexto.",
+      "artifacts": "Os globais têm instruções preexistentes. A sessão permite leitura global mas escrita somente dentro do projeto. Nenhum bloco da skill existe ainda."
+    }
+  ]
+}
