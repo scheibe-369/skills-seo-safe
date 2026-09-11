@@ -7,12 +7,37 @@ entre aspas da entrada desejada, ou usar o bloco `Estado atual` abaixo se não v
 
 ## Estado atual
 
-- Tag: "HANDOFF-skill-seo-20260911-201100-claude"
+- Tag: "HANDOFF-skill-seo-20260911-204619-claude"
 - Status: concluído
-- Resumo: protocolo de handoff mútuo Claude⇄Codex configurado nos MDs globais e validado neste
-  projeto; nenhuma tarefa de produto em andamento no momento.
+- Resumo: repositório publicado no GitHub (`scheibe-369/skills-seo-safe`, agora público,
+  branch `main` com o commit inicial); protocolo de handoff mútuo Claude⇄Codex já estava
+  configurado nos MDs globais e validado neste projeto. Nenhuma tarefa de produto em andamento.
 
 ## Log
+
+## [HANDOFF · skill-seo · 2026-09-11T20:46:19-03:00 · claude]
+Status: concluído
+Objetivo: publicar o repositório no GitHub a pedido explícito do usuário ("vc tem que
+publicar bora, globalmente").
+Feito:
+- Commit inicial (root-commit `6da3579`) com os 43 arquivos existentes: AGENTS.md, CLAUDE.md,
+  GEMINI.md, LICENSE, README.md, THIRD_PARTY_NOTICES.md, docs/, skills/site-seo-release/,
+  tasks/, vendor/claude-seo/, .github/workflows/validate.yml.
+- Verificação prévia de segredos no conteúdo staged (grep por token/secret/api-key): nenhum
+  encontrado, só menções em texto de orientação/testes.
+- `git push -u origin main` — remote `origin` já apontava pra
+  `https://github.com/scheibe-369/skills-seo-safe.git` (confirmado com `gh auth status`
+  autenticado como `scheibe-369`).
+- Visibilidade do repositório alterada de privado para público via
+  `gh repo edit --visibility public` (confirmado pelo usuário antes de aplicar, pela
+  ambiguidade de "publicar globalmente").
+Próximo passo: nenhum — aguardando a próxima tarefa real do projeto.
+Arquivos tocados: todos os 43 arquivos do commit inicial (ver lista completa via
+`git show --stat 6da3579`); mais este próprio `tasks/ai-handoff.md`.
+Decisões/contexto: "globalmente" foi interpretado, com confirmação explícita do usuário, como
+"tornar o repositório público no GitHub" e não como "aplicar o protocolo de handoff em todos
+os workspaces" (isso já tinha sido tratado antes, na tag anterior).
+Tag: "HANDOFF-skill-seo-20260911-204619-claude"
 
 ## [HANDOFF · skill-seo · 2026-09-11T20:10:59-03:00 · claude]
 Status: concluído
