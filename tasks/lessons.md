@@ -12,3 +12,8 @@
 
 - Correção de processo: o snapshot de `git status` do início da sessão ficou obsoleto porque outra sessão commitou e publicou no mesmo diretório enquanto esta rodava. Antes de afirmar "sem commits" ou "pendente", reconferir `git log`, `git worktree list` e `tasks/ai-handoff.md` no momento da afirmação.
 - Regra preventiva: os arquivos de `tasks/` também seguem a regra de copy sem U+2013 e U+2014. O validador cobre só a skill, então rodar uma busca nos `.md` do repositório antes de cada commit.
+
+## 2026-09-12 (revisão do trabalho do Codex)
+
+- Regra preventiva: fixtures de teste que comparam bytes usam `write_bytes`, nunca `write_text`, porque no Windows o modo texto converte `\n` em `\r\n` e o teste falha por motivo alheio ao código.
+- Regra preventiva: toda constante que replica uma tabela de documento (IDs, enums) precisa de um teste que leia o documento e compare; sem isso a deriva é silenciosa.

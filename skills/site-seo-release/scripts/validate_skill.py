@@ -72,7 +72,7 @@ def validate(skill: Path) -> list[str]:
             errors.append("Implicit invocation must remain enabled")
 
     for path in skill.rglob("*"):
-        if path.suffix not in {".md", ".yaml", ".py"} or "__pycache__" in path.parts:
+        if path.suffix not in {".md", ".yaml", ".py", ".json"} or "__pycache__" in path.parts:
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -96,10 +96,10 @@ def validate(skill: Path) -> list[str]:
     return errors
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("path", nargs="?", type=Path, default=Path(__file__).resolve().parents[1])
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     try:
         errors = validate(args.path)
     except (OSError, UnicodeError) as exc:

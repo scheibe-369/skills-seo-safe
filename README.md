@@ -10,7 +10,7 @@ Leia [SKILL.md](skills/site-seo-release/SKILL.md), ou instale a pasta no projeto
 
 - Início: gera `SEO-SPEC.md` com intenção, termos, metadados, páginas, integrações e critérios de aceite.
 - Alteração: revisa a parte afetada e suas dependências.
-- Fechamento: gera `tasks/site-release.json` e `tasks/site-release.md`, com 26 áreas de verificação, evidências e pendências.
+- Fechamento: gera `tasks/site-release.json` e `tasks/site-release.md`, com 28 áreas de verificação, evidências e pendências.
 
 Inclui robots, sitemap, llms, títulos, descriptions, palavras-chave, perguntas e conversão, imagem OG, favicon, compressão de imagens, formulários, 404, privacidade, cookies e SPF/DKIM/DMARC. `llms.txt` é experimental, sem promessa de ranking. E-mail é avaliado quando existe envio no escopo.
 
@@ -25,7 +25,7 @@ python skills/site-seo-release/scripts/install_skill.py --project "D:/caminho/do
 
 O instalador cria cópias para Codex e Claude, acrescenta regras locais e preserva configurações existentes. Recusa conteúdo divergente para permitir revisão antes de atualizar. Consulte [portabilidade](skills/site-seo-release/references/portability.md).
 
-Codex: `$site-seo-release`. Claude Code: `/site-seo-release`. Gemini: leia o caminho indicado no registro de GEMINI.md. A ativação precisa das instruções carregadas no host; este repositório sozinho não instala a skill globalmente.
+Codex: `$site-seo-release`. Claude Code: `/site-seo-release`. Gemini CLI: descobre `.agents/skills/` nativamente, ou leia o caminho indicado em GEMINI.md. A ativação precisa das instruções carregadas no host; este repositório sozinho não instala a skill globalmente.
 
 ## Registro global
 

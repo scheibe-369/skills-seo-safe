@@ -2,9 +2,9 @@
 
 Base: [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo), licença MIT, copyright 2026 agricidaniel.
 
-Em 2026-09-11 foram consultados os arquivos públicos da branch `main` pela ferramenta de navegação. Os snapshots textuais selecionados estão em `vendor/claude-seo/`, com nomes `.original.txt` para não serem descobertos como skills ativas. A origem de cada arquivo e seus hashes locais são registrados em `vendor/claude-seo/sources.json`.
+Em 2026-09-11 foram consultados os arquivos públicos da branch `main` pela ferramenta de navegação. Os snapshots textuais selecionados estão em `vendor/claude-seo/`, com nomes `.original.txt` para não serem descobertos como skills ativas. A origem de cada arquivo e seus hashes locais são registrados em `vendor/claude-seo/sources.json`. O texto integral da licença MIT do upstream está em `vendor/claude-seo/LICENSE.original.txt` e é reproduzido, junto com o copyright da adaptação, em `skills/site-seo-release/LICENSE` e no `LICENSE` da raiz.
 
-O snapshot do orquestrador declara versão 2.2.5. Isso não comprova que todos os arquivos consultados pertençam ao mesmo commit. O SHA do commit upstream não foi verificado: o acesso Git pelo terminal falhou. Os hashes locais identificam o texto recebido e não constituem verificação criptográfica da origem Git.
+O snapshot do orquestrador declara versão 2.2.5. Isso não comprova que todos os arquivos consultados pertençam ao mesmo commit. O SHA do commit upstream não foi verificado: o acesso Git pelo terminal falhou. Os hashes locais identificam o texto recebido e não constituem verificação criptográfica da origem Git: garantem a integridade da cópia local, não a igualdade byte a byte com o repositório de origem, porque os arquivos foram reconstruídos da saída renderizada.
 
 Esta é uma importação textual selecionada e uma adaptação para o ciclo de criação e lançamento. Não é um clone completo nem uma instalação dos agentes, scripts e integrações upstream. As referências internas dos snapshots podem apontar a arquivos não importados; não execute suas instruções como um pacote funcional.
 

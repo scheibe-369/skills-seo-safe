@@ -80,13 +80,12 @@ class RegisterGlobalTests(unittest.TestCase):
             self.assertEqual(plan.status, "create")
             self.assertFalse(target.parent.exists())
 
-            status = register_global.apply_registration(plan)
+            result = register_global.apply_registration(plan)
 
-            self.assertEqual(status, "create")
+            self.assertEqual(result.status, "create")
+            self.assertIsNone(result.backup)
             self.assertTrue(target.is_file())
-            backups = list(target.parent.glob(".site-seo-release.*.bak"))
-            self.assertEqual(len(backups), 1)
-            self.assertEqual(backups[0].read_bytes(), b"")
+            self.assertEqual(list(target.parent.glob(".site-seo-release.*.bak")), [])
 
     def test_second_apply_is_idempotent_and_creates_no_second_backup(self) -> None:
         with workspace_temporary_directory() as temporary:
@@ -100,10 +99,11 @@ class RegisterGlobalTests(unittest.TestCase):
             backup_count = len(list(root.glob(".site-seo-release.*.bak")))
 
             second = register_global.plan_registration(target, skill)
-            status = register_global.apply_registration(second)
+            result = register_global.apply_registration(second)
 
             self.assertEqual(second.status, "unchanged")
-            self.assertEqual(status, "unchanged")
+            self.assertEqual(result.status, "unchanged")
+            self.assertIsNone(result.backup)
             self.assertEqual(target.read_bytes(), first_bytes)
             self.assertEqual(target.read_bytes().count(register_global.START_BYTES), 1)
             self.assertEqual(
@@ -247,6 +247,40 @@ class RegisterGlobalTests(unittest.TestCase):
                 self.assertIn(expected.lower(), stderr.lower())
                 self.assertFalse(target.exists())
                 self.assertEqual(list(root.glob(".site-seo-release.*")), [])
+
+    def test_non_utf8_target_is_rejected_without_writes(self) -> None:
+        with workspace_temporary_directory() as temporary:
+            root = Path(temporary)
+            skill = self.make_skill(root)
+            target = root / "AGENTS.md"
+            original = "Conteúdo global".encode("utf-16")
+            target.write_bytes(original)
+
+            code, _stdout, stderr = self.run_main(
+                ["--target", str(target), "--skill", str(skill), "--apply"]
+            )
+
+            self.assertEqual(code, 2)
+            self.assertIn("utf-8", stderr.lower())
+            self.assertEqual(target.read_bytes(), original)
+            self.assertEqual(list(root.glob(".site-seo-release.*")), [])
+
+    def test_apply_prints_backup_path_on_insert(self) -> None:
+        with workspace_temporary_directory() as temporary:
+            root = Path(temporary)
+            skill = self.make_skill(root)
+            target = root / "AGENTS.md"
+            target.write_bytes(b"existing\n")
+
+            code, stdout, stderr = self.run_main(
+                ["--target", str(target), "--skill", str(skill), "--apply"]
+            )
+
+            self.assertEqual(code, 0, stderr)
+            backups = list(root.glob(".site-seo-release.*.bak"))
+            self.assertEqual(len(backups), 1)
+            self.assertIn(f"BACKUP: {backups[0].resolve()}", stdout)
+            self.assertEqual(backups[0].read_bytes(), b"existing\n")
 
     def test_apply_reports_missing_permissions_before_backup(self) -> None:
         with workspace_temporary_directory() as temporary:

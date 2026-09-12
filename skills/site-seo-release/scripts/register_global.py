@@ -40,6 +40,12 @@ class RegistrationPlan:
     updated: bytes
 
 
+@dataclass(frozen=True)
+class ApplyResult:
+    status: str
+    backup: Path | None
+
+
 def _absolute(path: Path) -> Path:
     return Path(os.path.abspath(os.fspath(path)))
 
@@ -69,7 +75,7 @@ def _reject_link_chain(path: Path, label: str) -> None:
     for component in [*reversed(absolute.parents), absolute]:
         if _is_link_or_junction(component):
             raise RegistrationError(
-                f"Refusing {label}: symlink or junction in path: {component}"
+                f"Refusing {label}: symlink or junction (reparse point) in path: {component}"
             )
 
 
@@ -185,6 +191,13 @@ def plan_registration(target_arg: Path, skill_arg: Path) -> RegistrationPlan:
     except OSError as exc:
         raise RegistrationError(f"Cannot read target: {target}") from exc
 
+    if b"\x00" in original:
+        raise RegistrationError(f"Target is not UTF-8 text (contains NUL bytes): {target}")
+    try:
+        original.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise RegistrationError(f"Target is not valid UTF-8: {target}") from exc
+
     newline = _newline_for(original)
     block = render_block(skill)
     encoded_block = _encode_block(block, newline)
@@ -225,9 +238,9 @@ def _write_exclusive(path: Path, data: bytes, mode: int | None = None) -> None:
             raise
 
 
-def apply_registration(plan: RegistrationPlan) -> str:
+def apply_registration(plan: RegistrationPlan) -> ApplyResult:
     if plan.status == "unchanged":
-        return "unchanged"
+        return ApplyResult("unchanged", None)
 
     try:
         plan.target.parent.mkdir(parents=True, exist_ok=True)
@@ -243,14 +256,16 @@ def apply_registration(plan: RegistrationPlan) -> str:
         raise RegistrationError("Target changed after planning; refusing update")
 
     mode = stat.S_IMODE(plan.target.stat().st_mode) if plan.target.exists() else None
-    backup = plan.target.parent / f".site-seo-release.{uuid.uuid4()}.bak"
     temporary = plan.target.parent / f".site-seo-release.{uuid.uuid4()}.tmp"
-    try:
-        _write_exclusive(backup, plan.original, mode)
-    except OSError as exc:
-        raise RegistrationError(
-            f"Cannot create exclusive backup beside target: {plan.target}"
-        ) from exc
+    backup: Path | None = None
+    if plan.original:
+        backup = plan.target.parent / f".site-seo-release.{uuid.uuid4()}.bak"
+        try:
+            _write_exclusive(backup, plan.original, mode)
+        except OSError as exc:
+            raise RegistrationError(
+                f"Cannot create exclusive backup beside target: {plan.target}"
+            ) from exc
 
     try:
         _write_exclusive(temporary, plan.updated, mode)
@@ -258,7 +273,7 @@ def apply_registration(plan: RegistrationPlan) -> str:
     except OSError as exc:
         temporary.unlink(missing_ok=True)
         raise RegistrationError(f"Cannot update target: {plan.target}") from exc
-    return plan.status
+    return ApplyResult(plan.status, backup)
 
 
 def _default_skill_path() -> Path:
@@ -288,13 +303,15 @@ def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     try:
         plan = plan_registration(args.target, args.skill)
-        status = apply_registration(plan) if args.apply else plan.status
+        result = apply_registration(plan) if args.apply else ApplyResult(plan.status, None)
     except (RegistrationError, OSError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
 
     print(f"PATH: {plan.target}")
-    print(f"STATUS: {status}")
+    print(f"STATUS: {result.status}")
+    if result.backup is not None:
+        print(f"BACKUP: {result.backup}")
     if not args.apply:
         print("BLOCK:")
         print(plan.block)

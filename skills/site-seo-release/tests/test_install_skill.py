@@ -135,6 +135,41 @@ class InstallSkillTests(unittest.TestCase):
             self.assertEqual(updated.count(START_MARKER.encode()), 1)
             self.assertEqual(updated.count(END_MARKER.encode()), 1)
 
+    def test_reinstall_after_crlf_checkout_is_unchanged(self) -> None:
+        with workspace_temporary_directory() as temporary:
+            project = Path(temporary)
+            first = self.run_installer(project, "codex")
+            self.assertEqual(first.returncode, 0, first.stderr)
+            destination = project / ".agents/skills/site-seo-release"
+            converted = [
+                project / "AGENTS.md",
+                *(path for path in destination.rglob("*") if path.is_file()),
+            ]
+            for path in converted:
+                data = path.read_bytes()
+                path.write_bytes(data.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
+            before = {path: path.read_bytes() for path in converted}
+
+            second = self.run_installer(project, "codex")
+            self.assertEqual(second.returncode, 0, second.stderr)
+            self.assertIn("keep identical skill", second.stdout)
+            self.assertIn("keep identical managed block", second.stdout)
+            for path, data in before.items():
+                self.assertEqual(path.read_bytes(), data)
+
+    def test_managed_block_follows_existing_line_endings(self) -> None:
+        with workspace_temporary_directory() as temporary:
+            project = Path(temporary)
+            original = b"# Existing rules\r\n"
+            (project / "AGENTS.md").write_bytes(original)
+
+            result = self.run_installer(project, "codex")
+            self.assertEqual(result.returncode, 0, result.stderr)
+            updated = (project / "AGENTS.md").read_bytes()
+            self.assertTrue(updated.startswith(original))
+            self.assertNotIn(b"\n", updated.replace(b"\r\n", b""))
+            self.assertEqual(list(project.glob(".site-seo-release.*.tmp")), [])
+
     def test_conflicting_destination_causes_zero_mutation(self) -> None:
         with workspace_temporary_directory() as temporary:
             project = Path(temporary)

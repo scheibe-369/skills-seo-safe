@@ -29,6 +29,7 @@ Revisão: 2026-09-11. Estas fontes orientam verificações, não prometem rankin
 - [LGPD: texto compilado](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm).
 - [ANPD: materiais orientativos](https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes).
 - [ANPD: orientação sobre cookies](https://www.gov.br/anpd/pt-br/assuntos/noticias-periodo-eleitoral/anpd-lanca-guia-orientativo-201ccookies-e-protecao-de-dados-pessoais201d).
+- [ANPD: Guia Orientativo Cookies e Proteção de Dados Pessoais (PDF, out. 2022)](https://www.gov.br/anpd/pt-br/documentos-e-publicacoes/guia-orientativo-cookies-e-protecao-de-dados-pessoais.pdf).
 - [RFC 7208: SPF](https://www.rfc-editor.org/rfc/rfc7208.html).
 - [RFC 6376: DKIM](https://www.rfc-editor.org/rfc/rfc6376.html).
 - [RFC 9989: DMARC](https://www.rfc-editor.org/info/rfc9989/). Publicada em maio de 2026, substitui RFC 7489 e RFC 9091; conferir também suporte real dos provedores.
@@ -40,6 +41,8 @@ Revisão: 2026-09-11. Estas fontes orientam verificações, não prometem rankin
 - [Codex: AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md).
 - [Claude Code: skills](https://code.claude.com/docs/en/skills).
 - [Gemini CLI: GEMINI.md](https://geminicli.com/docs/cli/gemini-md/).
+- [Gemini CLI: skills](https://geminicli.com/docs/cli/skills/).
+- [Agent Skills: especificação](https://agentskills.io/specification).
 - [Base selecionada: claude-seo](https://github.com/AgriciDaniel/claude-seo).
 
 As instruções ativas e scripts locais são uma adaptação MIT. Snapshots e hashes da origem ficam no repositório de desenvolvimento em `vendor/claude-seo/`, fora do pacote executável. A skill instalada permanece autossuficiente e conserva sua licença em `LICENSE`.

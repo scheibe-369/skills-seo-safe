@@ -5,7 +5,7 @@ Data: 2026-09-11. Ambiente: Windows 11, Python 3.12, repositório `scheibe-369/s
 ## Validação estática
 
 - `python skills/site-seo-release/scripts/validate_skill.py`: `{"valid": true, "errors": []}`.
-- `python -m unittest discover -s skills/site-seo-release/tests`: 43 testes, OK.
+- `python -m unittest discover -s skills/site-seo-release/tests`: 52 testes, OK (43 na versão de 2026-09-11; 9 adicionados em 2026-09-12 com as correções da revisão).
 - Busca por U+2013 e U+2014 fora de `vendor/`: zero ocorrências.
 - CI (`.github/workflows/validate.yml`, matriz Windows, Linux e macOS com Python 3.10 e 3.12): runs `34659266068` e `34659351460` em `success` no GitHub. O run do commit de fechamento é conferido após o push.
 
@@ -37,6 +37,10 @@ Três revisores independentes, somente leitura, sobre o estado pós-edição:
 - Portabilidade: nenhuma dependência exclusiva do Claude ou do Codex; frontmatter só com `name` e `description`; caminhos do instalador coerentes com `portability.md`. Seis divergências de texto entre gatilhos (bloco global, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `install_skill.py`) foram corrigidas, com o bloco global na versão 2.
 - Cobertura do briefing: 21 itens mapeados para arquivo e linha; 20 adequados e 1 fino (bloco pergunta, resposta, prova, imagem e CTA), corrigido com esqueleto em `content-media.md` e critério em `headings-content`. Resíduo de transcrição em `technical-files.md` removido; referência de DMARC alinhada à RFC 9989, verificada no rfc-editor.
 - Comportamento: ver a seção anterior.
+
+## Revisão do trabalho do Codex
+
+Em 2026-09-12, uma auditoria de fluxo e quatro revisores independentes (código Python com reprodução empírica, fact-check de 20 fontes oficiais, fidelidade ao upstream com hashes, docs dos três hosts) avaliaram a skill: ver `codex-work-review.md`. Resultado inicial: 0 críticos, 2 altos, 9 médios, 14 baixos; nenhuma afirmação técnica errada nas referências. As correções aprovadas foram aplicadas na mesma data (seção "Aplicação das correções" do relatório): o catálogo passou a 28 IDs, `verified_at` virou obrigatório em `pass`, e o gate passou a aplicar a regra de `production-verification`.
 
 ## Limitações
 

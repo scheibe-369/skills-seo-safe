@@ -22,11 +22,12 @@ Cada check:
 - `evidence`: lista de strings; em `pass` deve conter evidência não vazia, com local, método, resultado e data suficientes para repetir.
 - `reason`: obrigatório em `pending`, `blocked` e `na`.
 - `action`: obrigatório em `fail`, `pending` e `blocked`, com correção e reteste.
-- Recomendados: `location`, `expected`, `owner`, `dependencies`, `verified_at` e `limitations`.
+- `verified_at`: obrigatório em `pass`, ISO 8601 com timezone, data da verificação que sustenta a evidência.
+- Recomendados: `location`, `expected`, `owner`, `dependencies` e `limitations`.
 
 `pass` significa teste executado com resultado aceitável. `fail` significa falha observada. `pending` significa trabalho/teste ainda não realizado. `blocked` significa impedimento identificado. `na` significa fora do escopo por motivo demonstrável, não algo que faltou verificar.
 
-Evidências devem ser sanitizadas: nunca inclua tokens, registros completos de lead, e-mail privado ou cópia de arquivos globais. Link local para log sanitizado, comando e trecho do resultado são suficientes. Evidência de uma versão anterior precisa ser revalidada se a mudança afetou seu objeto.
+Evidências devem ser sanitizadas: nunca inclua tokens, registros completos de lead, e-mail privado ou cópia de arquivos globais. Link local para log sanitizado, comando e trecho do resultado são suficientes. Evidência de uma versão anterior precisa ser revalidada se a mudança afetou seu objeto. No modo incremental, compare o `verified_at` de cada check com a data da mudança para decidir o que revalidar.
 
 ## Decisão determinística
 
@@ -34,7 +35,7 @@ Evidências devem ser sanitizadas: nunca inclua tokens, registros completos de l
 - `READY_WITH_RESERVATIONS`: só restam itens abertos não obrigatórios de severidade medium/low.
 - `READY`: nenhum item aberto relevante ao critério acima.
 
-Itens `na` precisam de justificativa e revisão humana da aplicabilidade. O script valida consistência, não a veracidade das evidências, a legitimidade de uma dispensa ou a cobertura real das URLs. Não altere required, severity ou status para obter aprovação artificial. Em produção, `production-verification` não pode ser dispensado num lançamento público solicitado.
+Itens `na` precisam de justificativa e revisão humana da aplicabilidade. O script valida consistência, não a veracidade das evidências, a legitimidade de uma dispensa ou a cobertura real das URLs. Não altere required, severity ou status para obter aprovação artificial. Em produção, `production-verification` não pode ser dispensado num lançamento público solicitado. Em `local` e `preview`, `production-verification` fica `pending`, nunca `na` nem `pass`; o validador rejeita essas combinações e também `na` em produção.
 
 ## Rodar o validador
 

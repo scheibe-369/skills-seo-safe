@@ -7,14 +7,50 @@ entre aspas da entrada desejada, ou usar o bloco `Estado atual` abaixo se não v
 
 ## Estado atual
 
-- Tag: "HANDOFF-skill-seo-20260911-230331-claude"
+- Tag: "HANDOFF-skill-seo-20260912-030650-claude"
 - Status: concluído
-- Resumo: task original do Codex fechada. Registro global aplicado (Claude e Codex, bloco v2),
-  achados da revisão comportamental aplicados, três agentes de validação rodados e divergências
-  corrigidas, ativação confirmada por smoke real nos dois hosts, `docs/validation/RESULTS.md`
-  criado. Restam só pendências menores listadas em `tasks/todo.md`.
+- Resumo: revisão completa do trabalho do Codex na skill (`docs/validation/codex-work-review.md`)
+  e correções aprovadas aplicadas: gate aplica a regra de produção, `verified_at` obrigatório,
+  catálogo com 28 IDs (`accessibility`, `conversion-tracking`), instalador tolerante a CRLF e com
+  escrita atômica, registro global exige UTF-8 e imprime backup. 52 testes OK. Backlog em
+  `tasks/todo.md`: FM-005 e FM-009.
 
 ## Log
+
+## [HANDOFF · skill-seo · 2026-09-12T03:06:51-03:00 · claude]
+Status: concluído
+Objetivo: revisar o trabalho do Codex na skill `site-seo-release` e aplicar as correções que o
+usuário aprovou.
+Feito:
+- Auditoria de fluxo (pipeline-auditor) mais quatro revisores independentes: código Python com
+  reprodução empírica, fact-check de 20 fontes oficiais, fidelidade ao upstream com hashes,
+  docs de descoberta dos três hosts. Relatório em `docs/validation/codex-work-review.md`
+  (0 críticos, 2 altos, 9 médios, 14 baixos; nenhuma afirmação de SEO errada).
+- Correções aplicadas: FA-001 (CRLF/BOM no instalador), FA-002 (regra de produção no gate),
+  FM-001 (UTF-8 no registro global), FM-002 (stdout UTF-8), FM-003 (teste de deriva do
+  catálogo), FM-004 parcial (escrita atômica no instalador), FM-006 (`verified_at`
+  obrigatório), FM-007 e FM-008 (IDs `accessibility` e `conversion-tracking`), baixos de texto,
+  FB-009, FB-010, FB-014. Nove testes novos, 52 no total.
+- `RESULTS.md`, `todo.md` e `lessons.md` atualizados. Registro global segue `unchanged`.
+Próximo passo:
+- Commit e push desta leva; conferir o run de CI.
+- Backlog: FM-005 (Markdown completo do gate), FM-009 (paridade HTML/JS, mobile, security
+  headers, crawlers de IA), `license: MIT` no frontmatter, testes de falha em `os.replace`.
+- Usar a skill num projeto real para validar construção e fechamento ponta a ponta.
+Arquivos tocados: docs/validation/codex-work-review.md (novo), docs/validation/RESULTS.md,
+README.md, THIRD_PARTY_NOTICES.md, skills/site-seo-release/assets/seo-spec.md,
+skills/site-seo-release/references/{build-guidelines, content-media, forms-privacy-email,
+global-registration, portability, release-checklist, report-contract, sources,
+technical-files}.md, skills/site-seo-release/scripts/{install_skill, register_global,
+release_gate, validate_skill}.py, skills/site-seo-release/tests/{test_install_skill,
+test_register_global, test_release_gate}.py, tasks/todo.md, tasks/lessons.md,
+tasks/ai-handoff.md.
+Decisões/contexto: escopo definido pelo usuário (altos, médios de código, `verified_at`, os dois
+IDs novos, baixos). `valid_report()` dos testes passou a usar `environment: production` porque
+`production-verification` só pode ser `pass` em produção. Helpers do instalador não foram
+extraídos para módulo comum para manter cada script autossuficiente na cópia instalada. Dois
+revisores caíram no limite de sessão e foram relançados com o mesmo briefing.
+Tag: "HANDOFF-skill-seo-20260912-030650-claude"
 
 ## [HANDOFF · skill-seo · 2026-09-11T23:03:31-03:00 · claude]
 Status: concluído

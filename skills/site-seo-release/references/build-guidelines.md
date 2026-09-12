@@ -34,5 +34,5 @@ Defina o orçamento de imagens e desempenho adequado ao layout. As metas precisa
 
 Alterou domínio, rota ou indexação: revalide canonical, sitemap, robots, llms e links. Alterou hero: revalide LCP, dimensões, alt e copy. Alterou formulário/provedor: revalide entrega, erros, privacidade e autenticação de e-mail. Alterou conteúdo: revalide intenção, títulos, descriptions e schema.
 
-Atualize o MD e apenas as linhas afetadas do relatório, mantendo a data de cada evidência. A revisão final repassa o catálogo completo e deixa explícitos os testes ainda não executados.
+Atualize o MD e apenas as linhas afetadas do relatório, mantendo o `verified_at` das evidências não afetadas. A revisão final repassa o catálogo completo e deixa explícitos os testes ainda não executados.
 

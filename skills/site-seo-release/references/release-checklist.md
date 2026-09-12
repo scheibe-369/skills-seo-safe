@@ -18,8 +18,10 @@ Inclua uma linha para cada ID abaixo em toda revisão final. Um ID pode agregar 
 | images | Compressão comparada, dimensões, alt, formatos, LCP sem lazy e mobile | Obrigatório quando usa imagens |
 | performance | Resultado de lab e/ou campo com dispositivo, data e condições | Obrigatório medir o disponível; não inventar campo |
 | navigation-mobile | Navegação, CTAs, links, teclado e viewports testados | Obrigatório |
+| accessibility | Contraste AA em texto e CTA, foco visível, nomes acessíveis, hierarquia de headings, zoom a 200% e alt testados | Obrigatório |
 | forms-ui | Validação cliente/servidor, loading, erro, sucesso e reenvio testados | Obrigatório quando há formulário |
 | forms-delivery | Registro de chegada ao destino e notificações esperadas | Obrigatório quando há formulário, critical se conversão depende dele |
+| conversion-tracking | Evento de conversão disparado no sucesso real, condicionado ao consentimento, sem PII, destino do dado verificado | Obrigatório quando há objetivo de conversão medido; na com motivo se não há analytics |
 | privacy | Política coerente com coleta, fornecedores e informações reais | Obrigatório quando há tratamento de dados; inventariar mesmo sem formulário |
 | cookies | Comportamento de scripts, escolha, rejeição e revogação conforme base definida | Condicional ao inventário, não dispensar sem inspecionar |
 | not-found | URL inexistente retorna HTTP 404 e apresenta recuperação útil | Obrigatório |

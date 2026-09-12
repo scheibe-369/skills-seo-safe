@@ -14,8 +14,8 @@
 
 ## Matriz de páginas
 
-| Rota | Indexar? Motivo | Intenção | Termo principal e origem | Termos de apoio | Title | Description | H1 | Canonical | CTA |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Rota | Indexar? Motivo | Intenção | Termo principal e origem | Termos de apoio | Title | Description | H1 | Canonical | CTA | Pergunta principal | Imagem social | Idioma |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Requisitos de construção
 
@@ -23,6 +23,8 @@
 - Conteúdo: dúvidas reais, respostas, provas, links internos e schema aplicável.
 - Mídia: origem/licença, descrição contextual, dimensões, compressão, LCP, favicon e imagem social.
 - Formulários: campos, validação, antispam, destino, estados, teste e responsável.
+- Conversão: evento disparado no sucesso real, gate de consentimento, sem PII, destino do dado.
+- Acessibilidade: contraste AA, foco visível, nomes acessíveis, hierarquia de headings, zoom a 200%.
 - Privacidade: coleta, finalidade, controlador, contato, fornecedores, retenção e cookies.
 - E-mail: remetentes, provedor, domínio de envio, seletores DKIM, SPF e política DMARC.
 - Operação: build, HTTP 404, HTTPS, redirects, mobile, métricas e crédito Method.

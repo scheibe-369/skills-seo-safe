@@ -21,7 +21,7 @@ def valid_report() -> dict:
     return {
         "schema_version": 1,
         "project": "Example site",
-        "environment": "preview",
+        "environment": "production",
         "audited_at": "2026-09-11T16:30:00-03:00",
         "scope": ["https://example.test/"],
         "checks": [
@@ -31,6 +31,7 @@ def valid_report() -> dict:
                 "severity": "medium",
                 "required": True,
                 "evidence": [f"Verified {check_id}"],
+                "verified_at": "2026-09-11T16:30:00-03:00",
             }
             for check_id in release_gate.REQUIRED_CHECK_IDS
         ],
@@ -155,15 +156,67 @@ class ReleaseGateSchemaTests(unittest.TestCase):
         report = valid_report()
         report["checks"].append(
             {
-                "id": "custom-accessibility",
+                "id": "custom-brand-check",
                 "status": "pass",
                 "severity": "low",
                 "required": False,
-                "evidence": ["Keyboard navigation verified"],
+                "evidence": ["Brand guidelines verified"],
+                "verified_at": "2026-09-11T16:30:00-03:00",
             }
         )
         result = release_gate.validate_report(report)
         self.assertEqual(result["counts"]["total"], len(release_gate.REQUIRED_CHECK_IDS) + 1)
+
+    def test_pass_requires_verified_at_with_timezone(self) -> None:
+        report = valid_report()
+        del report["checks"][0]["verified_at"]
+        self.assert_schema_error(report, "verified_at must be a non-empty ISO 8601 string")
+
+        report = valid_report()
+        report["checks"][0]["verified_at"] = "2026-09-11T16:30:00"
+        self.assert_schema_error(report, "verified_at must include a timezone")
+
+    def test_production_verification_cannot_be_na_in_production(self) -> None:
+        report = valid_report()
+        check = next(c for c in report["checks"] if c["id"] == "production-verification")
+        check.update(status="na", evidence=[], reason="Skipped by mistake")
+        self.assert_schema_error(report, "cannot be na in production")
+
+    def test_production_verification_stays_pending_outside_production(self) -> None:
+        for status in ("pass", "na"):
+            with self.subTest(status=status):
+                report = valid_report()
+                report["environment"] = "preview"
+                check = next(c for c in report["checks"] if c["id"] == "production-verification")
+                check.update(status=status, reason="Not published yet")
+                self.assert_schema_error(report, "must stay pending outside production")
+
+        report = valid_report()
+        report["environment"] = "local"
+        check = next(c for c in report["checks"] if c["id"] == "production-verification")
+        check.update(
+            status="pending",
+            severity="low",
+            required=False,
+            evidence=[],
+            reason="Not published yet",
+            action="Publish and run the production smoke",
+        )
+        del check["verified_at"]
+        result = release_gate.validate_report(report)
+        self.assertEqual(result["decision"], "READY_WITH_RESERVATIONS")
+
+    def test_catalog_matches_release_checklist_table(self) -> None:
+        checklist = SCRIPT_PATH.parents[1] / "references" / "release-checklist.md"
+        table_ids = []
+        for line in checklist.read_text(encoding="utf-8").splitlines():
+            if not line.startswith("| "):
+                continue
+            first_cell = line.split("|")[1].strip()
+            if first_cell in {"ID", "---"}:
+                continue
+            table_ids.append(first_cell)
+        self.assertEqual(table_ids, list(release_gate.REQUIRED_CHECK_IDS))
 
 
 class ReleaseGateCliTests(unittest.TestCase):
@@ -241,6 +294,20 @@ class ReleaseGateCliTests(unittest.TestCase):
         self.assertIn("Audited at: 2026-09-11T16:30:00-03:00", stdout.getvalue())
         self.assertIn("Scope: https://example.test/", stdout.getvalue())
         self.assertIn("does not certify publication", stdout.getvalue())
+
+    def test_non_cp1252_characters_do_not_crash_output(self) -> None:
+        report = valid_report()
+        report["project"] = "Site → lançamento"
+        path = self.write_report(report)
+        for arguments in ([str(path)], [str(path), "--markdown"]):
+            with self.subTest(arguments=arguments):
+                buffer = io.BytesIO()
+                stdout = io.TextIOWrapper(buffer, encoding="cp1252", write_through=True)
+                with patch("sys.stdout", stdout):
+                    code = release_gate.main(arguments)
+                    stdout.flush()
+                self.assertEqual(code, 0)
+                self.assertIn("Site → lançamento", buffer.getvalue().decode("utf-8"))
 
     def test_markdown_escapes_extra_check_id_and_action(self) -> None:
         report = valid_report()

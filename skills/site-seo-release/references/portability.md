@@ -1,11 +1,11 @@
 # Portabilidade e instalação
 
-O núcleo usa frontmatter `name` e `description`, instruções por capacidade e Python 3.10+ com biblioteca padrão. `agents/openai.yaml` é metadado do Codex, opcional para o host e obrigatório no pacote validado. Claude Code pode ignorá-lo. O funcionamento não depende de subagentes ou do runtime upstream.
+O núcleo usa frontmatter `name` e `description`, obrigatórios no padrão Agent Skills (`name` minúsculo com hífens, até 64 caracteres, igual ao diretório; `description` até 1.024 caracteres), instruções por capacidade e Python 3.10+ com biblioteca padrão. `agents/openai.yaml` é metadado do Codex, opcional para o host e obrigatório no pacote validado. Claude Code pode ignorá-lo. O funcionamento não depende de subagentes ou do runtime upstream.
 
 ## Escopos distintos
 
 - Desenvolvimento: `skills/site-seo-release/` é a fonte de verdade neste repositório. `AGENTS.md` e `CLAUDE.md` locais apontam para ela explicitamente.
-- Instalação por projeto: o instalador copia a mesma skill para `.agents/skills/site-seo-release/` no Codex e `.claude/skills/site-seo-release/` no Claude Code. Acrescenta uma regra curta ao MD local de cada host.
+- Instalação por projeto: o instalador copia a mesma skill para `.agents/skills/site-seo-release/` no Codex e `.claude/skills/site-seo-release/` no Claude Code. O Gemini CLI descobre a mesma pasta `.agents/skills/` nativamente (alias de `.gemini/skills/`), sem cópia extra. Acrescenta uma regra curta ao MD local de cada host.
 - Registro global: [global-registration.md](global-registration.md) explica como cadastrar somente o índice de ativação no MD do usuário, inclusive Gemini. Ele aponta para um caminho acessível; não é cópia automática da skill nem instalação de plugin.
 
 ## Instalar em outro projeto
@@ -25,7 +25,7 @@ O instalador não sobrescreve árvores diferentes ou blocos locais conflitantes.
 
 No Codex instalado, use `$site-seo-release`. No Claude instalado, use `/site-seo-release`. O nome e descrição permitem seleção implícita, mas a regra local/global é o que estabelece o uso obrigatório no fluxo do usuário. Não afirme que a presença de `skills/` isoladamente instala ou garante autoativação em qualquer host.
 
-No Gemini, use o registro em GEMINI.md como índice e leia a skill pelo caminho indicado quando houver gatilho; esta entrega não inclui empacotamento de extensão Gemini.
+No Gemini CLI, a cópia em `.agents/skills/` é descoberta como skill nativa e ativada pela tool `activate_skill`; o registro em GEMINI.md serve como índice complementar. Esta entrega não inclui extensão Gemini empacotada.
 
 Após mudar instruções globais, inicie nova sessão no host ou use seu mecanismo de recarga documentado. Teste uma solicitação positiva e uma negativa; registre host, versão e resultado. Testes de arquivos/cópias não substituem esse smoke real.
 

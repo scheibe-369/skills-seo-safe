@@ -62,7 +62,7 @@ Verifique HTTP 200, Markdown legível e todos os links. A presença do arquivo n
 
 Decida protocolo, hostname e slash finais. Teste canonical absoluto por rota, variantes e redirecionamentos permanentes reais. Não mande todos os canonicals para a home. Páginas indexáveis não podem ter `noindex` acidental em meta ou `X-Robots-Tag`.
 
-Peça uma URL inexistente de verdade, inclusive rota aninhada, e examine o status HTTP servido pela hospedagem. Exiba 404 útil com home e navegação. Uma SPA com fallback 200 não satisfaz esse teste. Não redirecione toda URL desconhecida para a home. Se houver substituição real, use redirect para o conteúdo equivalente. Exclua páginas de erro do sitemap.
+Peça uma URL inexistente de verdade, inclusive rota aninhada, e examine o status HTTP servido pela hospedagem. Exiba 404 útil com home e navegação. Uma SPA com fallback 200 não satisfaz esse teste. Quando a hospedagem não permitir status 404 real, aceite as alternativas documentadas pelo Google: redirecionar via JavaScript para uma URL que responda 404 no servidor, ou injetar meta robots noindex na página de erro, registrando a limitação. Não redirecione toda URL desconhecida para a home. Se houver substituição real, use redirect para o conteúdo equivalente. Exclua páginas de erro do sitemap.
 
 Confira conteúdo essencial no HTML servido e no renderizado, rotas acessíveis diretamente, links com `href`, HTTPS e recursos quebrados. Não imponha migração de framework como única solução de SEO sem evidência de falha de renderização.
 

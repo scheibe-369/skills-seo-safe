@@ -4,10 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import codecs
 import os
 import shutil
 import stat
 import sys
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -15,6 +17,7 @@ from pathlib import Path
 SKILL_NAME = "site-seo-release"
 START_MARKER = f"<!-- {SKILL_NAME}:start -->"
 END_MARKER = f"<!-- {SKILL_NAME}:end -->"
+TEXT_SUFFIXES = {"", ".md", ".yaml", ".yml", ".py", ".json", ".txt"}
 
 
 class InstallError(RuntimeError):
@@ -61,6 +64,32 @@ def _is_ignored(path: Path) -> bool:
     return path.name == "__pycache__" or path.suffix == ".pyc"
 
 
+def _normalize_text(data: bytes) -> bytes:
+    # Git checkouts with core.autocrlf rewrite line endings; compare content, not EOL.
+    if data.startswith(codecs.BOM_UTF8):
+        data = data[len(codecs.BOM_UTF8):]
+    return data.replace(b"\r\n", b"\n")
+
+
+def _newline_for(data: bytes) -> bytes:
+    return b"\r\n" if b"\r\n" in data else b"\n"
+
+
+def _write_atomic(path: Path, data: bytes) -> None:
+    temporary = path.parent / f".{SKILL_NAME}.{uuid.uuid4()}.tmp"
+    try:
+        with open(temporary, "xb") as handle:
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        if path.exists():
+            shutil.copymode(path, temporary)
+        os.replace(temporary, path)
+    except BaseException:
+        temporary.unlink(missing_ok=True)
+        raise
+
+
 def _lexical_absolute(path: Path) -> Path:
     return Path(os.path.abspath(os.fspath(path)))
 
@@ -88,7 +117,9 @@ def _reject_symlink_chain(path: Path, label: str) -> None:
     chain = list(reversed(current.parents)) + [current]
     for component in chain:
         if _is_link(component):
-            raise InstallError(f"Refusing {label}: symlink in path: {component}")
+            raise InstallError(
+                f"Refusing {label}: symlink, junction or reparse point in path: {component}"
+            )
 
 
 def _reject_tree_symlinks(root: Path, label: str) -> None:
@@ -122,7 +153,10 @@ def _tree_manifest(root: Path) -> dict[str, bytes | None]:
             if _is_ignored(candidate):
                 continue
             relative = relative_directory / name
-            manifest[relative.as_posix()] = candidate.read_bytes()
+            content = candidate.read_bytes()
+            if candidate.suffix in TEXT_SUFFIXES:
+                content = _normalize_text(content)
+            manifest[relative.as_posix()] = content
     return manifest
 
 
@@ -152,16 +186,23 @@ def _validate_instruction_file(path: Path, expected_block: str) -> bool:
     if end_start < start:
         raise InstallError(f"Unbalanced managed markers in {path}")
     end = end_start + len(END_MARKER)
-    if text[start:end] != expected_block:
+    if text[start:end].replace("\r\n", "\n") != expected_block:
         raise InstallError(f"Existing managed block differs in {path}; refusing overwrite")
     return False
 
 
 def _append_managed_block(path: Path, block: str) -> None:
     existing = path.read_bytes() if path.exists() else b""
-    separator = b"" if not existing else (b"\n" if existing.endswith(b"\n") else b"\n\n")
+    newline = _newline_for(existing)
+    encoded = block.encode("utf-8").replace(b"\n", newline)
+    if not existing:
+        separator = b""
+    elif existing.endswith((b"\n", b"\r")):
+        separator = newline
+    else:
+        separator = newline + newline
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(existing + separator + block.encode("utf-8") + b"\n")
+    _write_atomic(path, existing + separator + encoded + newline)
 
 
 def _copy_skill(source: Path, destination: Path) -> None:

@@ -30,5 +30,5 @@ python CAMINHO_DA_SKILL/scripts/register_global.py --target CAMINHO_DO_MD_GLOBAL
 python CAMINHO_DA_SKILL/scripts/register_global.py --target CAMINHO_DO_MD_GLOBAL --skill CAMINHO_DA_SKILL/SKILL.md --apply
 ```
 
-Substitua os caminhos e mantenha aspas em caminhos com espaços. Sem `--apply`, apenas mostra o novo bloco e o estado, sem modificar o MD. O backup da aplicação permanece ao lado do MD global e deve ser tratado como privado. Nunca publique esse backup no repositório da skill.
+Substitua os caminhos e mantenha aspas em caminhos com espaços. Sem `--apply`, apenas mostra o novo bloco e o estado, sem modificar o MD. Com `--apply`, o script imprime `BACKUP: <caminho>` quando altera um MD existente; na criação de um MD novo não há backup. O backup permanece ao lado do MD global, é uma cópia integral e privada, e pode ser apagado depois de conferir o resultado. Nunca publique esse backup no repositório da skill.
 

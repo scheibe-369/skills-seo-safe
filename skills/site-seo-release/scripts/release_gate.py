@@ -23,6 +23,7 @@ SEVERITIES = {"critical", "high", "medium", "low"}
 OPEN_STATUSES = {"fail", "pending", "blocked"}
 REASON_STATUSES = {"pending", "blocked", "na"}
 ACTION_STATUSES = OPEN_STATUSES
+PRODUCTION_CHECK_ID = "production-verification"
 
 REQUIRED_CHECK_IDS = (
     "context",
@@ -39,8 +40,10 @@ REQUIRED_CHECK_IDS = (
     "images",
     "performance",
     "navigation-mobile",
+    "accessibility",
     "forms-ui",
     "forms-delivery",
+    "conversion-tracking",
     "privacy",
     "cookies",
     "not-found",
@@ -62,18 +65,18 @@ def _is_nonempty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
-def _validate_audited_at(value: Any) -> None:
+def _validate_timestamp(value: Any, field: str) -> None:
     if not _is_nonempty_string(value):
-        raise SchemaError("audited_at must be a non-empty ISO 8601 string")
+        raise SchemaError(f"{field} must be a non-empty ISO 8601 string")
 
     normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
     try:
         parsed = datetime.fromisoformat(normalized)
     except ValueError as exc:
-        raise SchemaError("audited_at must be a valid ISO 8601 datetime") from exc
+        raise SchemaError(f"{field} must be a valid ISO 8601 datetime") from exc
 
     if parsed.tzinfo is None or parsed.utcoffset() is None:
-        raise SchemaError("audited_at must include a timezone")
+        raise SchemaError(f"{field} must include a timezone")
 
 
 def _validate_string_list(value: Any, field: str, *, nonempty: bool = False) -> None:
@@ -107,7 +110,7 @@ def validate_report(report: Any) -> dict[str, Any]:
         allowed = ", ".join(sorted(ENVIRONMENTS))
         raise SchemaError(f"environment must be one of: {allowed}")
 
-    _validate_audited_at(report.get("audited_at"))
+    _validate_timestamp(report.get("audited_at"), "audited_at")
     _validate_string_list(report.get("scope"), "scope", nonempty=True)
 
     checks = report.get("checks")
@@ -155,6 +158,17 @@ def validate_report(report: Any) -> dict[str, Any]:
 
         if status in ACTION_STATUSES and not _is_nonempty_string(check.get("action")):
             raise SchemaError(f"{prefix}.action is required for status {status}")
+
+        if status == "pass":
+            _validate_timestamp(check.get("verified_at"), f"{prefix}.verified_at")
+
+        if check_id == PRODUCTION_CHECK_ID:
+            if environment == "production" and status == "na":
+                raise SchemaError(f"{PRODUCTION_CHECK_ID} cannot be na in production")
+            if environment != "production" and status in {"pass", "na"}:
+                raise SchemaError(
+                    f"{PRODUCTION_CHECK_ID} must stay pending outside production, not {status}"
+                )
 
         normalized_checks.append(check)
 
@@ -287,6 +301,11 @@ def main(argv: list[str] | None = None) -> int:
         help="Print the decision as Markdown instead of JSON",
     )
     args = parser.parse_args(argv)
+
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8", errors="backslashreplace")
 
     try:
         result = validate_report(_load_report(args.path))
