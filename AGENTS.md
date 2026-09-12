@@ -5,8 +5,8 @@ Este repositório mantém uma skill para criação e fechamento de sites públic
 ## Regras do projeto
 
 - Fonte canônica: `skills/site-seo-release/`. Altere essa fonte e valide antes de distribuir cópias.
-- Antes de criar, reformular ou finalizar um site ou landing page, leia integralmente `skills/site-seo-release/SKILL.md` e siga o modo correspondente. Se o seletor não descobrir a skill, abra o arquivo diretamente.
-- Para alterações pequenas, revise o escopo afetado. Na entrega, aplique a revisão final e registre pendências em `tasks/site-release.md`.
+- Antes de criar, reformular, alterar de forma relevante ou finalizar um site ou landing page, leia `skills/site-seo-release/SKILL.md` na ativação e siga o modo correspondente; reutilize o contexto já carregado enquanto estiver atual. Se o seletor não descobrir a skill, abra o arquivo diretamente.
+- Para alterações pequenas, revise o escopo afetado. Na entrega, aplique a revisão final e registre pendências em `tasks/site-release.md` e `tasks/site-release.json`.
 - A skill define `SEO-SPEC.md`, que orienta os requisitos locais da construção. Preserve instruções e conteúdo preexistentes em qualquer Markdown do usuário.
 - Código pertence ao módulo da skill, incluindo scripts e testes. Use `modular-arch` em criação e refatoração.
 - Leia `tasks/lessons.md`, mantenha `tasks/todo.md` e comprove resultados antes de concluir.

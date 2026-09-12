@@ -1,4 +1,4 @@
-# Handoff mútuo Claude ⇄ Codex — skill-seo
+# Handoff mútuo Claude ⇄ Codex: skill-seo
 
 Canal de retomada entre Claude Code e OpenAI Codex CLI para este projeto. Ver a seção
 "Orquestração Multi-IA" nos MDs globais (`~/.claude/CLAUDE.md` e `~/.codex/AGENTS.md`) para o
@@ -7,13 +7,47 @@ entre aspas da entrada desejada, ou usar o bloco `Estado atual` abaixo se não v
 
 ## Estado atual
 
-- Tag: "HANDOFF-skill-seo-20260911-204619-claude"
+- Tag: "HANDOFF-skill-seo-20260911-230331-claude"
 - Status: concluído
-- Resumo: repositório publicado no GitHub (`scheibe-369/skills-seo-safe`, agora público,
-  branch `main` com o commit inicial); protocolo de handoff mútuo Claude⇄Codex já estava
-  configurado nos MDs globais e validado neste projeto. Nenhuma tarefa de produto em andamento.
+- Resumo: task original do Codex fechada. Registro global aplicado (Claude e Codex, bloco v2),
+  achados da revisão comportamental aplicados, três agentes de validação rodados e divergências
+  corrigidas, ativação confirmada por smoke real nos dois hosts, `docs/validation/RESULTS.md`
+  criado. Restam só pendências menores listadas em `tasks/todo.md`.
 
 ## Log
+
+## [HANDOFF · skill-seo · 2026-09-11T23:03:31-03:00 · claude]
+Status: concluído
+Objetivo: fechar a task de construção da skill iniciada pelo Codex e interrompida, a partir do
+briefing original do usuário.
+Feito:
+- Registro global aplicado com `register_global.py --apply` em `~/.claude/CLAUDE.md` e
+  `~/.codex/AGENTS.md` (bloco v2, um por arquivo, backup privado ao lado de cada MD). Gemini
+  ficou fora do pedido.
+- Achados 1 a 4 de `docs/validation/behavior-review.md` aplicados em `SKILL.md` e
+  `references/release-checklist.md`.
+- Três agentes paralelos de validação (portabilidade, cobertura do briefing, comportamento).
+  Divergências de gatilho entre bloco global, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` e
+  `install_skill.py` corrigidas; esqueleto de bloco pergunta, resposta, prova e CTA em
+  `content-media.md`; resíduo "7 map.xml" removido; DMARC alinhado à RFC 9989.
+- Smoke real: `claude -p` positivo ativou a skill e o negativo não carregou; `codex exec`
+  positivo ativou. Ver `docs/validation/RESULTS.md`.
+- Validador `valid: true`, 43 testes OK, zero travessão fora de `vendor/`.
+Próximo passo:
+- Commit e push deste fechamento; conferir o run de CI.
+- Opcional: smoke negativo no Codex; uso real de `install_skill.py` em um projeto.
+Arquivos tocados: AGENTS.md, CLAUDE.md, GEMINI.md, README.md, docs/GLOBAL_SETUP.md,
+docs/validation/behavior-review.md, docs/validation/RESULTS.md (novo),
+skills/site-seo-release/SKILL.md, skills/site-seo-release/references/{content-media,
+forms-privacy-email, portability, release-checklist, technical-files}.md,
+skills/site-seo-release/scripts/{install_skill, register_global}.py, tasks/todo.md,
+tasks/lessons.md, tasks/ai-handoff.md.
+Decisões/contexto: o snapshot inicial de git desta sessão dizia "sem commits", mas outra sessão
+do Claude já tinha publicado o repo no mesmo diretório (tag 204619); o estado real foi
+reconferido antes de agir. Travessões no cabeçalho e em três linhas deste arquivo foram trocados
+por dois-pontos e vírgula, pela regra de copy do projeto. `REGISTRY_VERSION` subiu para 2 porque
+o texto do bloco global mudou (inclui páginas privadas ou noindex e exclusões explícitas).
+Tag: "HANDOFF-skill-seo-20260911-230331-claude"
 
 ## [HANDOFF · skill-seo · 2026-09-11T20:46:19-03:00 · claude]
 Status: concluído
@@ -25,13 +59,13 @@ Feito:
   tasks/, vendor/claude-seo/, .github/workflows/validate.yml.
 - Verificação prévia de segredos no conteúdo staged (grep por token/secret/api-key): nenhum
   encontrado, só menções em texto de orientação/testes.
-- `git push -u origin main` — remote `origin` já apontava pra
+- `git push -u origin main`; o remote `origin` já apontava pra
   `https://github.com/scheibe-369/skills-seo-safe.git` (confirmado com `gh auth status`
   autenticado como `scheibe-369`).
 - Visibilidade do repositório alterada de privado para público via
   `gh repo edit --visibility public` (confirmado pelo usuário antes de aplicar, pela
   ambiguidade de "publicar globalmente").
-Próximo passo: nenhum — aguardando a próxima tarefa real do projeto.
+Próximo passo: nenhum, aguardando a próxima tarefa real do projeto.
 Arquivos tocados: todos os 43 arquivos do commit inicial (ver lista completa via
 `git show --stat 6da3579`); mais este próprio `tasks/ai-handoff.md`.
 Decisões/contexto: "globalmente" foi interpretado, com confirmação explícita do usuário, como
@@ -50,7 +84,7 @@ Feito:
 - Mecanismo validado num segundo workspace (`D:/Projetos-vibeocding/tyvo/tasks/ai-handoff.md`)
   para confirmar que não depende de nada específico deste projeto.
 - Memória `reference` criada no Claude Code apontando pra este arquivo e pra seção global.
-Próximo passo: nenhum — protocolo pronto, aguardando a próxima tarefa real do projeto
+Próximo passo: nenhum, protocolo pronto, aguardando a próxima tarefa real do projeto
 (retomar via `tasks/todo.md` / `SEO-SPEC.md` / `skills/site-seo-release/SKILL.md` conforme o
 fluxo já documentado em `AGENTS.md`/`CLAUDE.md` deste repositório).
 Arquivos tocados: `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `tasks/ai-handoff.md` (aqui),

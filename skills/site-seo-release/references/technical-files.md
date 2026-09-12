@@ -23,7 +23,7 @@ A ausência de robots não bloqueia crawling por si só. Sua existência é padr
 
 ## sitemap.xml
 
-Nome convencional: `sitemap.xml`, interpretando “7 map.xml” como sitemap XML. Gere a partir do inventário canônico, não de uma lista de todas as rotas indiscriminadamente.
+Nome convencional: `sitemap.xml`. Gere a partir do inventário canônico, não de uma lista de todas as rotas indiscriminadamente.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

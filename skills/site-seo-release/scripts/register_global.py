@@ -19,7 +19,7 @@ import uuid
 
 
 SKILL_NAME = "site-seo-release"
-REGISTRY_VERSION = 1
+REGISTRY_VERSION = 2
 START_MARKER = f"<!-- {SKILL_NAME}:global:start -->"
 END_MARKER = f"<!-- {SKILL_NAME}:global:end -->"
 START_BYTES = START_MARKER.encode("ascii")
@@ -126,8 +126,10 @@ def render_block(skill: Path) -> str:
         f"Versão do registro: {REGISTRY_VERSION}\n"
         f"Caminho da skill: {skill}\n\n"
         "Ative ao criar, reformular, alterar de forma relevante ou finalizar sites "
-        "públicos e landing pages. No início, crie ou atualize `SEO-SPEC.md`. No "
-        "fechamento, atualize `tasks/site-release.md` e `tasks/site-release.json` "
+        "públicos e landing pages, inclusive o fechamento de páginas privadas ou "
+        "noindex. Não se aplica a API isolada, scripts CLI ou telas de sistema "
+        "interno sem página web entregue. No início, crie ou atualize `SEO-SPEC.md`. "
+        "No fechamento, atualize `tasks/site-release.md` e `tasks/site-release.json` "
         "com pendências e evidências.\n\n"
         "Leia a skill inteira somente na primeira ativação, em uma nova fase ou após "
         "mudança material. Reutilize o contexto já carregado, sem reler a cada "

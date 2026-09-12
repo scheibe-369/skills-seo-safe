@@ -1,6 +1,6 @@
 # Portabilidade e instalação
 
-O núcleo usa frontmatter `name` e `description`, instruções por capacidade e Python 3.10+ com biblioteca padrão. `agents/openai.yaml` é metadado opcional do Codex. Claude Code pode ignorá-lo. O funcionamento não depende de subagentes ou do runtime upstream.
+O núcleo usa frontmatter `name` e `description`, instruções por capacidade e Python 3.10+ com biblioteca padrão. `agents/openai.yaml` é metadado do Codex, opcional para o host e obrigatório no pacote validado. Claude Code pode ignorá-lo. O funcionamento não depende de subagentes ou do runtime upstream.
 
 ## Escopos distintos
 

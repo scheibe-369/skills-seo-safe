@@ -6,9 +6,9 @@ Os arquivos reais foram lidos e a prévia passou em 2026-09-11:
 - Claude: `C:/Users/Helinho Filhão/.claude/CLAUDE.md`.
 - Skill: `D:/Projetos-vibeocding/skill-seo/skills/site-seo-release/SKILL.md`.
 
-Nenhum bloco da skill existia nos dois MDs. Não havia `AGENTS.override.md` na pasta global do Codex. A sessão permite escrita somente no workspace, portanto os arquivos globais não foram alterados. Não é necessário pedir novamente autorização para a finalidade solicitada, mas a aplicação precisa ocorrer num ambiente que permita gravar nesses caminhos.
+Nenhum bloco da skill existia nos dois MDs e não havia `AGENTS.override.md` na pasta global do Codex. A sessão do Codex que construiu a skill permitia escrita somente no workspace, então a aplicação ficou pendente. Em 2026-09-11 o bloco foi aplicado nos dois alvos (Claude e Codex) por uma sessão do Claude Code com permissão de escrita, com backup criado ao lado de cada MD e prévia posterior retornando `STATUS: unchanged`.
 
-Execute no PowerShell fora da sessão restrita:
+Comandos usados na aplicação (repetir somente se o bloco precisar de atualização):
 
 ```powershell
 python "D:/Projetos-vibeocding/skill-seo/skills/site-seo-release/scripts/register_global.py" --target "C:/Users/Helinho Filhão/.codex/AGENTS.md" --apply

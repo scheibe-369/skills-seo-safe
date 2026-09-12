@@ -12,6 +12,8 @@ Use um título principal claro e hierarquia semântica de subtítulos. Não decl
 
 Transforme uma seção explicativa em pergunta e resposta quando isso refletir uma dúvida real do visitante. Dê a resposta principal cedo, acrescente condições e prova verificável, e direcione a um CTA coerente. A pergunta não deve esconder a oferta nem repetir o mesmo termo artificialmente.
 
+Esqueleto sugerido por bloco: subtítulo em forma de pergunta; resposta direta em uma ou duas frases; condições ou exceções; prova verificável (número, prazo, caso ou certificação real); imagem ou foto com legenda quando ela acrescentar contexto; CTA coerente com a pergunta. Na revisão final, o ID `headings-content` confere se as perguntas principais da página seguem essa estrutura.
+
 Imagem e legenda devem ajudar a entender a promessa, processo ou resultado. Para uma seção sobre prazo, prefira explicar etapas e condições reais do prazo. Só use uma foto se ela acrescentar contexto. Registre melhorias de conversão como hipóteses a medir, sem prometer aumento de taxa.
 
 Use schema apenas quando corresponder ao conteúdo visível e a tipos adequados. Confira a documentação atual de rich results antes de prometer elegibilidade. Não use FAQPage indiscriminadamente nem transforme uma FAQ editorial em QAPage sem perguntas e respostas de usuários.

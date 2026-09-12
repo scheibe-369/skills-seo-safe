@@ -165,6 +165,10 @@ Esses achados incluem falhas de indexação e de conversão que impedem `READY` 
 5. Fixar no contrato a distinção: sem teste e sem impedimento conhecido é `pending`; sem teste por impedimento identificado é `blocked`.
 6. Adicionar estes sete casos ao conjunto de regressão comportamental e comparar invariantes, não redação: ativação, modo, decisão, artefatos, evidências aceitas e pendências.
 
+## Aplicação dos achados
+
+Em 2026-09-11 os achados 1 a 4 foram aplicados: a descrição em `SKILL.md` passou a cobrir a finalização de páginas privadas ou `noindex`; a seção de registro global em `SKILL.md` exclui avaliações isoladas, dry runs e auditorias somente leitura; `references/release-checklist.md` ganhou exemplos observacionais de severidade e a regra de registrar o contrato de `required` quando o fechamento começa sem `SEO-SPEC.md`. Os achados 5 e 6 já estavam cobertos por `references/report-contract.md` (definição de `pending` e `blocked`) e por `tests/behavior-cases.json` (os sete casos).
+
 ## Resultado final
 
 A skill se comporta de forma conservadora nos casos centrais: não inventa pesquisa, não confunde sucesso visual com entrega, não aprova DNS sem mensagem autenticada, preserva `noindex` intencional e não transforma teste local em publicação comprovada. Os principais riscos restantes estão na descoberta implícita do caso privado, na atribuição contextual de `required` e severidade quando falta `SEO-SPEC.md`, e no efeito colateral de registro global durante avaliações isoladas.

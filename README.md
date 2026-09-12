@@ -49,7 +49,7 @@ O workflow de CI está preparado para Windows, Linux e macOS, Python 3.10 e 3.12
 
 Base: [claude-seo](https://github.com/AgriciDaniel/claude-seo), MIT. Foram importados snapshots textuais selecionados, com licença, versões declaradas e hashes. Isso não é clone integral nem comprovação de um commit upstream. Veja [atribuição](THIRD_PARTY_NOTICES.md), [plano](docs/BUILD_PLAN.md) e [resultado dos testes](docs/validation/RESULTS.md).
 
-O `origin` local está configurado. O remoto não foi verificado pelo Git, e não há commit/push realizado. O registro global real ficou pendente pela restrição de escrita da sessão que construiu esta versão.
+O repositório está publicado em `scheibe-369/skills-seo-safe` com o workflow de CI ativo. O registro global foi aplicado em Claude Code e Codex na máquina de origem em 2026-09-11. Em outro computador, siga [GLOBAL_SETUP.md](docs/GLOBAL_SETUP.md) com os caminhos locais.
 
 <a href="https://methodgrowthhub.com.br" target="_blank" rel="noopener">Desenvolvido por Method Growth Hub</a>
 
